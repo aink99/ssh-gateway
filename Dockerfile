@@ -14,11 +14,13 @@ RUN apk update	&& apk upgrade && apk add \
 		# forward request and error logs to docker log collector
 	        && ln -sf /dev/stdout /var/log/nginx/access.log \
 	        && ln -sf /dev/stderr /var/log/nginx/error.log \
+                && mkdir /www \
 		&& rm -rf /var/cache/apk/* /tmp/*
 
 
 
 COPY nginx.conf /etc/nginx/nginx.conf
+COPY index.php /www
 COPY entrypoint.sh /
 COPY sshd_config /etc/ssh/sshd_config
 COPY authorized_keys /home/autossh/.ssh/authorized_keys
