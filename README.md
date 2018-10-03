@@ -3,14 +3,15 @@ Overview
 Use this Dockerfile / -image to start a sshd-server upon a lightweight Alpine container.
 
 Features
-Always installs the latest OpenSSH-Version available for Alpine
-Password of "root"-user can be changed when starting the container using --env
+
+
 Basic Usage
 
-docker run -d  --name=ssh-gw \
+docker   run -d  --name=ssh-gw \
 --hostname ssh-gw \
 -e IP=192.168.0.0/24 \
 -p 1337:22  \
+-p 8822-8900:8822-8900  \
 aink99/ssh-gateway
 
 
