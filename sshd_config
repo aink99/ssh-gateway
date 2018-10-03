@@ -1,0 +1,29 @@
+Port 22
+Protocol 2
+LoginGraceTime 1m
+PermitRootLogin no
+MaxAuthTries 2
+SyslogFacility AUTH
+LogLevel INFO
+PermitRootLogin no
+StrictModes yes
+PubkeyAuthentication yes
+IgnoreRhosts yes
+HostbasedAuthentication no
+PermitEmptyPasswords no
+ChallengeResponseAuthentication no
+X11Forwarding no
+X11DisplayOffset 10
+PrintMotd no
+TCPKeepAlive yes
+AcceptEnv LANG LC_*
+Subsystem sftp /usr/lib/openssh/sftp-server
+GatewayPorts yes
+AllowUsers autossh
+
+Match User autossh
+  AllowTcpForwarding yes
+  X11Forwarding no
+  AllowAgentForwarding no
+  ForceCommand /bin/false
+  PasswordAuthentication no
