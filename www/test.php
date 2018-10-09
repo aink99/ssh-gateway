@@ -1,17 +1,29 @@
 <?php
 
-$connection = @fsockopen('localhost', '8822');
 
-if (is_resource($connection))
-{
-    echo 'Open!';
-    fclose($connection);
-    return true;
+
+function stest($ip, $port) {
+   
+
+
+	if(fsockopen("$ip",$port))
+	{
+	print "Port $port is open for ssh access";
+	}
+	
 }
-else
+
+
+for( $i=8822; $i<=8830; $i++ )
+
 {
-    echo 'Closed / not responding. :(';
-    return false;
-}
+
+//echo $i;
+$connection = @fsockopen('localhost', '$i');
+stest ('127.0.0.1',"$i");
+
+echo "<br>";
+
+ }
 
 ?>
