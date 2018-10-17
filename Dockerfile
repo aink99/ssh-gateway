@@ -20,7 +20,7 @@ RUN apk update	&& apk upgrade && apk add \
 
 
 COPY nginx.conf /etc/nginx/nginx.conf
-COPY index.php /www
+COPY www/index.php /www
 COPY entrypoint.sh /
 COPY sshd_config /etc/ssh/sshd_config
 COPY authorized_keys /home/autossh/.ssh/authorized_keys

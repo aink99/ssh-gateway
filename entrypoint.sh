@@ -11,4 +11,5 @@ if [ ! -z "${ROOT_PASSWORD}" ] && [ "${ROOT_PASSWORD}" != "root" ]; then
 fi
 
 # do not detach (-D), log to stderr (-e), passthrough other arguments
-exec /usr/sbin/sshd -D -e "$@"
+touch /var/log/sshd.log
+exec /usr/sbin/sshd -D -e "$@" -E  /var/log/sshd.log| tail -f -n 300 /var/log/sshd.log

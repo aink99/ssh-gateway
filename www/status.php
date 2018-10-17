@@ -58,7 +58,14 @@ foreach($tcp as $value) {
 
   // Print nothing if the variable is empty 
   //if (!empty($tcpline[3])) echo "<pre>Server IP $tcpline[3]</pre>";
-  if (!empty($tcpline[4])) echo "<pre>Remote IP $tcpline[4] connected</pre>";
+  if (!empty($tcpline[4])) {
+    echo "<pre>Remote IP $tcpline[4] connected</pre>";
+    echo "<pre>Remote IP $tcpline[4] connected</pre>";
+      if (preg_match("/ell/", "Hello World!", $matches)) {
+      echo "Match was found <br />";
+      echo $matches[0];
+    }
+  }
   //Show array
   //print_r($tcpline);
 }
