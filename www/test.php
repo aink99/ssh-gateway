@@ -28,6 +28,8 @@ foreach($matches[0] as $value) {
 $pattern = "/^.*pid.*\$/m";
 preg_match_all($pattern, $value, $matches);
 echo implode("\n", $matches[0]);
+print_r($matches[0]);
+echo explode(" ", $matches[0]);
 echo "===============================\n";
 }
 

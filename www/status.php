@@ -14,7 +14,22 @@
 
 <h1>Status page</h1>
 
+
+
 <?php
+
+//Variables
+$file = '/var/log/sshd.log';
+#$searchfor = 'Accepted publickey for';
+$searchfor = 'Accepted publickey for';
+// get the file contents, assuming the file to be readable (and exist)
+$contents = file_get_contents($file);
+// escape special characters in the query
+$pattern = preg_quote($searchfor, '/');
+// finalise the regular expression, matching the whole line
+//$pattern = "/^.*$pattern.*\$/m";
+$pattern = "/^.*$pattern.*\n.*\n.*\$/m";
+
 
 // php funtion to check if the port is open
 function stest($ip, $port) {
@@ -27,6 +42,19 @@ function stest($ip, $port) {
   }
   
 }
+
+
+
+FUNCTION hello(){
+ echo "Call php function on onclick event.";
+ $output = shell_exec('ls -alht');
+ echo "$output";
+ }
+
+//
+
+
+
 echo "Established TCP sessions";
 
 
@@ -61,8 +89,51 @@ foreach($tcp as $value) {
   if (!empty($tcpline[4])) {
     //echo "<pre>Remote IP $tcpline[4] connected</pre>";
    
+   // Split ip and port delimited by :
     $ip_port = explode (":", $tcpline[4]);
      echo "<pre>Remote IP $ip_port[0] is connected source port is $ip_port[1]</pre>";
+
+     //Search for port number within the sshd.log
+     $pattern = "/^.*port $ip_port[1] ssh2.*\n.*\n.*\$/m";
+     preg_match_all($pattern, $contents, $matches);
+     
+
+     // Put the result of matches into the line variable
+     $line = implode("\n", $matches[0]);
+
+     //Search for the  keword PID in the line variable 
+     $pattern = "/^.*pid.*\$/m";
+     preg_match_all($pattern, $line, $matches);
+
+     // Put result in tis variable
+     $PID = implode("\n", $matches[0]);
+     //echo $PID;
+     //create an array splite by space
+     $pidline = preg_split("/[\s,]+/", $PID);
+
+
+     //echo $pidline[5]; 
+     echo "<pre>PID is $pidline[5] </pre>";
+    //echo '<input type="button"  value="Kill ssh session" onclick="msg()">';
+
+     if ($_GET['run']) {
+  # This code will run if ?run=true is set.
+  $results = exec("kill $pidline[5]");
+  echo "<pre>".$results . "</pre>";
+}
+ 
+    //echo '<a <button class="btn info" onclick="echoHello()"><code> Kill ssh session <code></button></a> ';
+
+echo '<form method="post"> <button name="test">test</button> </form>';
+if(isset($_POST['test'])){
+      echo 'do php stuff';
+      $results = shell_exec("echo kill $pidline[5]");
+      //$results = shell_exec("whoami");
+      echo "<pre>".$results . "</pre>";
+
+    }
+
+
       
   }
   //Show array
@@ -82,6 +153,12 @@ echo "<br>";
 
  }
 ?> 
+
+<script>
+function echoHello(){
+ alert("<?PHP hello(); ?>");
+ }
+</script>
 
 </body>
 </html>
