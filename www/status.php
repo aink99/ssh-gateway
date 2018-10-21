@@ -47,7 +47,7 @@ function stest($ip, $port) {
 
 FUNCTION hello(){
  echo "Call php function on onclick event.";
- $output = shell_exec('ls -alht');
+ $output = shell_exec('whoami');
  echo "$output";
  }
 
@@ -116,22 +116,30 @@ foreach($tcp as $value) {
      echo "<pre>PID is $pidline[5] </pre>";
     //echo '<input type="button"  value="Kill ssh session" onclick="msg()">';
 
-     if ($_GET['run']) {
-  # This code will run if ?run=true is set.
-  $results = exec("kill $pidline[5]");
-  echo "<pre>".$results . "</pre>";
-}
+
  
     //echo '<a <button class="btn info" onclick="echoHello()"><code> Kill ssh session <code></button></a> ';
 
-echo '<form method="post"> <button name="test">test</button> </form>';
-if(isset($_POST['test'])){
-      echo 'do php stuff';
-      $results = shell_exec("echo kill $pidline[5]");
-      //$results = shell_exec("whoami");
+     if (isset($_POST)) {
+    // PHP function you want to call
+   $results = shell_exec("whoami");
       echo "<pre>".$results . "</pre>";
 
-    }
+}
+
+//echo '<a href="" onclick="echoHello()" class="deletebtn">Delete</a>';
+//<a <button  class="btn info" onclick="window.open('/cgi-bin/zabbix-email.py?status', 'test', 'width=400, height=400');" <code>Status</code> </button> </a> <br />
+//echo '<button  class="btn info" onclick="window.open('/cgi-bin/zabbix-email.py?status', 'test', 'width=400, height=400');" <code>Status</code> </button> ';
+//echo  '<a <button class="btn info" onclick="OpenWindow()"><code>Kill Session</code></button> </a> <br />';
+echo  '<a <button class="btn info" onclick="window.open(\'/kill.php\', \'test\', \'width=400, height=400\')"><code>Kill Session</code></button> </a> <br />';
+
+      //echo 'do php stuff';
+      //$results = 
+      //shell_exec("kill $pidline[5]");
+      //$results = shell_exec("whoami");
+      //echo "<pre>".$results . "</pre>";
+
+    
 
 
       
@@ -154,11 +162,16 @@ echo "<br>";
  }
 ?> 
 
-<script>
-function echoHello(){
- alert("<?PHP hello(); ?>");
- }
+
+<script type="text/javascript" language="javascript">
+function OpenWindow() {
+window.open("/kill.php", 'test', 'width=400, height=400');
+
+}
 </script>
+
+
+
 
 </body>
 </html>
