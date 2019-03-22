@@ -9,6 +9,11 @@
     <link rel="stylesheet" href="/assets/hint.min.css">
     <link rel="stylesheet" href="/assets/style.css">
     <link rel="shortcut icon" href="/assets/favicon.ico">
+    <!-- Bootstrap styles -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+     <!-- Generic page styles -->
+     <!-- CSS to style the file input field as button and adjust the Bootstrap progress bars -->
+
 </head>
 <body>
 
@@ -33,14 +38,14 @@ $pattern = "/^.*$pattern.*\n.*\n.*\$/m";
 
 // php funtion to check if the port is open
 function stest($ip, $port) {
-   
+
 
 
   if(fsockopen("$ip",$port))
   {
   print "Port $port is openened for ssh access";
   }
-  
+
 }
 
 
@@ -57,6 +62,8 @@ FUNCTION hello(){
 
 echo "Established TCP sessions";
 
+//echo '<div class="header1">Hello</div>';
+
 
 
 //execute the netstat command and grep for established tcp sessions
@@ -68,7 +75,7 @@ $output = shell_exec('netstat -ant|grep ESTA|grep \:22');
 $tcp = explode("\n", $output);
 
 
-//Show  net stat array for debbug 
+//Show  net stat array for debbug
 //print_r($tcp);
 
 
@@ -77,18 +84,18 @@ $tcp = explode("\n", $output);
 
 foreach($tcp as $value) {
 
-  echo "<pre>=====================================</pre>";	
-  //Debbug 
+  echo "<pre>=====================================</pre>";
+  //Debbug
   //echo "<pre>$value</pre>";
 
   // Create another array to separtate the line per space ala awk
   $tcpline = preg_split("/[\s,]+/", $value);
 
-  // Print nothing if the variable is empty 
+  // Print nothing if the variable is empty
   //if (!empty($tcpline[3])) echo "<pre>Server IP $tcpline[3]</pre>";
   if (!empty($tcpline[4])) {
     //echo "<pre>Remote IP $tcpline[4] connected</pre>";
-   
+
    // Split ip and port delimited by :
     $ip_port = explode (":", $tcpline[4]);
      echo "<pre>Remote IP $ip_port[0] is connected source port is $ip_port[1]</pre>";
@@ -96,12 +103,12 @@ foreach($tcp as $value) {
      //Search for port number within the sshd.log
      $pattern = "/^.*port $ip_port[1] ssh2.*\n.*\n.*\$/m";
      preg_match_all($pattern, $contents, $matches);
-     
+
 
      // Put the result of matches into the line variable
      $line = implode("\n", $matches[0]);
 
-     //Search for the  keword PID in the line variable 
+     //Search for the  keword PID in the line variable
      $pattern = "/^.*pid.*\$/m";
      preg_match_all($pattern, $line, $matches);
 
@@ -112,12 +119,12 @@ foreach($tcp as $value) {
      $pidline = preg_split("/[\s,]+/", $PID);
 
 
-     //echo $pidline[5]; 
+     //echo $pidline[5];
      echo "<pre>PID is $pidline[5] </pre>";
     //echo '<input type="button"  value="Kill ssh session" onclick="msg()">';
 
 
- 
+
     //echo '<a <button class="btn info" onclick="echoHello()"><code> Kill ssh session <code></button></a> ';
 
      if (isset($_POST)) {
@@ -127,28 +134,30 @@ foreach($tcp as $value) {
 
 }
 
-//echo '<a href="" onclick="echoHello()" class="deletebtn">Delete</a>';
-//<a <button  class="btn info" onclick="window.open('/cgi-bin/zabbix-email.py?status', 'test', 'width=400, height=400');" <code>Status</code> </button> </a> <br />
-//echo '<button  class="btn info" onclick="window.open('/cgi-bin/zabbix-email.py?status', 'test', 'width=400, height=400');" <code>Status</code> </button> ';
-//echo  '<a <button class="btn info" onclick="OpenWindow()"><code>Kill Session</code></button> </a> <br />';
-echo  '<a <button class="btn info" onclick="window.open(\'/kill.php\', \'test\', \'width=400, height=400\')"><code>Kill Session</code></button> </a> <br />';
+// Kill button '.$variable.' is needed to call th php variable inside single quotes
+echo '<a> <button type="button" class="btn btn-danger" onclick="window.open(\'/kill.php?pid='.$pidline[5].'\', \'test\', \'width=400, height=400\')"><i class="glyphicon glyphicon-remove-sign"></i> Kill ssh session</button>';
 
+
+
+
+
+echo '</span></a>';
       //echo 'do php stuff';
-      //$results = 
+      //$results =
       //shell_exec("kill $pidline[5]");
       //$results = shell_exec("whoami");
       //echo "<pre>".$results . "</pre>";
 
-    
 
 
-      
+
+
   }
   //Show array
   //print_r($tcpline);
 }
 
-// For loop we have written in our doc bind the renote ssh port to ports between 8222-92000
+// For loop we have written in our doc bind the remote ssh port to ports between 8222-92000
 
 for( $i=8822; $i<=9000; $i++ )
 
@@ -160,7 +169,7 @@ stest ('127.0.0.1',"$i");
 echo "<br>";
 
  }
-?> 
+?>
 
 
 <script type="text/javascript" language="javascript">
