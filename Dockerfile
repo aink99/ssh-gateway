@@ -15,7 +15,8 @@ RUN apk update	&& apk upgrade && apk add \
 	        && ln -sf /dev/stdout /var/log/nginx/access.log \
 	        && ln -sf /dev/stderr /var/log/nginx/error.log \
                 && mkdir /www \
-		&& rm -rf /var/cache/apk/* /tmp/*
+		&& rm -rf /var/cache/apk/* /tmp/*\
+    && sed -i  's|^user = .*|user = autossh|g'  /etc/php7/php-fpm.d/www.conf
 
 
 
