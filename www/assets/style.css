@@ -14,3 +14,11 @@
 body {
   padding-top: 60px;
 }
+.post {
+  padding: 0;
+  margin-bottom: 20px;
+  background-repeat: no-repeat;
+  background-position: 100% 0;
+  position: relative;
+  background-color: lightgrey;
+}
