@@ -4,13 +4,10 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>tcp status page</title>
-    <link rel="stylesheet" href="/assets/pure-min.css">
-    <link rel="stylesheet" href="/assets/grids-responsive-min.css">
-    <link rel="stylesheet" href="/assets/hint.min.css">
-    <link rel="stylesheet" href="/assets/style.css">
     <link rel="shortcut icon" href="/assets/favicon.ico">
     <!-- Bootstrap styles -->
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
      <!-- Generic page styles -->
      <!-- CSS to style the file input field as button and adjust the Bootstrap progress bars -->
 
@@ -60,8 +57,6 @@ FUNCTION hello(){
 
 
 
-echo "Established TCP sessions";
-
 //echo '<div class="header1">Hello</div>';
 
 
@@ -84,7 +79,7 @@ $tcp = explode("\n", $output);
 
 foreach($tcp as $value) {
 
-  echo "<pre>=====================================</pre>";
+
   //Debbug
   //echo "<pre>$value</pre>";
 
@@ -98,7 +93,7 @@ foreach($tcp as $value) {
 
    // Split ip and port delimited by :
     $ip_port = explode (":", $tcpline[4]);
-     echo "<pre>Remote IP $ip_port[0] is connected source port is $ip_port[1]</pre>";
+
 
      //Search for port number within the sshd.log
      $pattern = "/^.*port $ip_port[1] ssh2.*\n.*\n.*\$/m";
@@ -119,34 +114,27 @@ foreach($tcp as $value) {
      $pidline = preg_split("/[\s,]+/", $PID);
 
 
-     //echo $pidline[5];
-     echo "<pre>PID is $pidline[5] </pre>";
-    //echo '<input type="button"  value="Kill ssh session" onclick="msg()">';
+echo '
+        <div class="card" style="width: 40rem;">
+            <div class="card-header">
+                <h6 class="card-title">Connection</h6>
+            </div>
+              <div class="card-body">
+                <ul>
+                  <li>Remote IP '.$ip_port[0].' is connected source port is '.$ip_port[1].'</li>
+                  <li>PID is '.$pidline[5].' </li>
+                  <br>
+                  <a> <button type="button" class="btn btn-danger" onclick="window.open(\'/kill.php?pid='.$pidline[5].'\', \'test\', \'width=400, height=400\')"><i class="glyphicon glyphicon-remove-sign"></i> Kill ssh session</button>
+                  </ul>
+            </div>
+        </div>
+<br>
+
+            ';
 
 
 
-    //echo '<a <button class="btn info" onclick="echoHello()"><code> Kill ssh session <code></button></a> ';
 
-     if (isset($_POST)) {
-    // PHP function you want to call
-   $results = shell_exec("whoami");
-      echo "<pre>".$results . "</pre>";
-
-}
-
-// Kill button '.$variable.' is needed to call th php variable inside single quotes
-echo '<a> <button type="button" class="btn btn-danger" onclick="window.open(\'/kill.php?pid='.$pidline[5].'\', \'test\', \'width=400, height=400\')"><i class="glyphicon glyphicon-remove-sign"></i> Kill ssh session</button>';
-
-
-
-
-
-echo '</span></a>';
-      //echo 'do php stuff';
-      //$results =
-      //shell_exec("kill $pidline[5]");
-      //$results = shell_exec("whoami");
-      //echo "<pre>".$results . "</pre>";
 
 
 
@@ -172,14 +160,10 @@ echo "<br>";
 ?>
 
 
-<script type="text/javascript" language="javascript">
-function OpenWindow() {
-window.open("/kill.php", 'test', 'width=400, height=400');
-
-}
-</script>
-
-
+<!-- jQuery first, then Popper.js, then Bootstrap JS -->
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
 
 
 </body>
