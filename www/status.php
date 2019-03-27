@@ -10,11 +10,21 @@
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
      <!-- Generic page styles -->
      <!-- CSS to style the file input field as button and adjust the Bootstrap progress bars -->
-
 </head>
+<?php include 'nav.php'; ?>
 <body>
 
-<h1>Status page</h1>
+
+
+  <main role="main" class="container">
+
+    <div class="starter-template">
+      <h1>Information</h1>
+
+    <p class="lead">TCP tunnels status </p>
+    </div>
+
+
 
 
 
@@ -32,28 +42,6 @@ $pattern = preg_quote($searchfor, '/');
 //$pattern = "/^.*$pattern.*\$/m";
 $pattern = "/^.*$pattern.*\n.*\n.*\$/m";
 
-
-// php funtion to check if the port is open
-function stest($ip, $port) {
-
-
-
-  if(fsockopen("$ip",$port))
-  {
-  print "Port $port is openened for ssh access";
-  }
-
-}
-
-
-
-FUNCTION hello(){
- echo "Call php function on onclick event.";
- $output = shell_exec('whoami');
- echo "$output";
- }
-
-//
 
 
 
@@ -124,7 +112,7 @@ echo '
                   <li>Remote IP '.$ip_port[0].' is connected source port is '.$ip_port[1].'</li>
                   <li>PID is '.$pidline[5].' </li>
                   <br>
-                  <a> <button type="button" class="btn btn-danger" onclick="window.open(\'/kill.php?pid='.$pidline[5].'\', \'test\', \'width=400, height=400\')"><i class="glyphicon glyphicon-remove-sign"></i> Kill ssh session</button>
+                  <a> <button type="button" class="btn btn-danger" onclick="window.open(\'/kill.php?pid='.$pidline[5].'\', \'test\', \'width=400, height=400\')"><i class="fa fa-times-circle"></i> Kill ssh session</button>
                   </ul>
             </div>
         </div>
@@ -147,16 +135,6 @@ echo '
 
 // For loop we have written in our doc bind the remote ssh port to ports between 8222-92000
 
-for( $i=8822; $i<=9000; $i++ )
-
-{
-
-//echo $i;
-stest ('127.0.0.1',"$i");
-
-echo "<br>";
-
- }
 ?>
 
 
