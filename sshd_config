@@ -4,7 +4,7 @@ LoginGraceTime 1m
 PermitRootLogin no
 MaxAuthTries 2
 SyslogFacility AUTH
-LogLevel VERBOSE
+LogLevel DEBUG1
 PermitRootLogin no
 StrictModes yes
 PubkeyAuthentication yes
