@@ -19,17 +19,11 @@
   <main role="main" class="container">
 
     <div class="starter-template">
-      <h1>Information</h1>
-
-    <p class="lead">TCP tunnels status </p>
+          <h1 class="lead">TCP tunnels status </h1>
     </div>
 
 
-
-
-
 <?php
-
 //Variables
 $file = '/var/log/sshd.log';
 #$searchfor = 'Accepted publickey for';
@@ -43,11 +37,7 @@ $pattern = preg_quote($searchfor, '/');
 $pattern = "/^.*$pattern.*\n.*\n.*\$/m";
 
 
-
-
 //echo '<div class="header1">Hello</div>';
-
-
 
 //execute the netstat command and grep for established tcp sessions
 $output = shell_exec('netstat -ant|grep ESTA|grep \:22');
@@ -66,11 +56,8 @@ $tcp = explode("\n", $output);
 //loop for eacg line/value of the array.
 
 foreach($tcp as $value) {
-
-
   //Debbug
   //echo "<pre>$value</pre>";
-
   // Create another array to separtate the line per space ala awk
   $tcpline = preg_split("/[\s,]+/", $value);
 
@@ -82,24 +69,45 @@ foreach($tcp as $value) {
    // Split ip and port delimited by :
     $ip_port = explode (":", $tcpline[4]);
 
-
-     //Search for port number within the sshd.log
-     $pattern = "/^.*port $ip_port[1] ssh2.*\n.*\n.*\$/m";
+   //Search for port number within the sshd.log  *\n means the line below
+      // for verbose sshd log
+     //$pattern = "/^.*port $ip_port[1] ssh2.*\n.*\n.*\$/m";
+     // for debug1 sshd log
+     $pattern = "/^.*port $ip_port[1] ssh2.*\n.*\n.*\n.*\n.*\$/m";
      preg_match_all($pattern, $contents, $matches);
-
+     //$pattern2 = "/User child is on pid.*/";
+     //preg_match_all($pattern2, $contents, $matches2);
+//print_r($matches[0]);
+//print_r($contents);
 
      // Put the result of matches into the line variable
      $line = implode("\n", $matches[0]);
-
      //Search for the  keword PID in the line variable
      $pattern = "/^.*pid.*\$/m";
      preg_match_all($pattern, $line, $matches);
+    // print_r($matches[0]);
 
-     // Put result in tis variable
+   // Put result in tis variable
      $PID = implode("\n", $matches[0]);
      //echo $PID;
+     //print_r($PID);
      //create an array splite by space
      $pidline = preg_split("/[\s,]+/", $PID);
+
+     // Search for remotetunnel
+
+     $pattern = "/$PID.*\n.*\n.*\n.*\n.*\n.*\n.*\n.*\n.*\n.*\$/m";
+     preg_match_all($pattern, $contents, $matches);
+     $remotetunnel_line = implode("\n", $matches[0]);
+     $pattern = "/.*tcpip-forward listen.*/";
+     preg_match_all($pattern, $remotetunnel_line, $matches);
+     //print_r($matches);
+     $tunnel = implode("\n", $matches[0]);
+     $tunneline = preg_split("/[\s,]+/", $tunnel);
+
+
+
+
 
 
 echo '
@@ -107,10 +115,11 @@ echo '
             <div class="card-header">
                 <h6 class="card-title">Connection</h6>
             </div>
-              <div class="card-body">
+               <div class="card-body">
                 <ul>
                   <li>Remote IP '.$ip_port[0].' is connected source port is '.$ip_port[1].'</li>
                   <li>PID is '.$pidline[5].' </li>
+                  <li>Remote tunnel port is '.$tunneline[6].' </li>
                   <br>
                   <a> <button type="button" class="btn btn-danger" onclick="window.open(\'/kill.php?pid='.$pidline[5].'\', \'test\', \'width=400, height=400\')"><i class="fa fa-times-circle"></i> Kill ssh session</button>
                   </ul>
@@ -120,20 +129,10 @@ echo '
 
             ';
 
-
-
-
-
-
-
-
-
   }
   //Show array
   //print_r($tcpline);
 }
-
-// For loop we have written in our doc bind the remote ssh port to ports between 8222-92000
 
 ?>
 
