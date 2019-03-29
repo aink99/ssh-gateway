@@ -8,6 +8,7 @@ RUN apk update	&& apk upgrade && apk add \
                 supervisor \
                 nginx \
                 php7 \
+                php7-sqlite3 \
                 php7-fpm \
 		&& adduser -S autossh \
 		&& passwd -u autossh \
