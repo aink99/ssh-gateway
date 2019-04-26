@@ -68,14 +68,34 @@
                   echo '
                   </tbody>
                  </table>
-                 ';                   
-
-
-
+                 ';
 
              ?>
       </div>
 
+
+
+
+      		<!-- showing the message here-->
+      		<div><?php echo $message;?></div>
+
+      		<table class=table>
+      			<form action="insert.php" method="post">
+      			<tr>
+      				<td>Name:</td>
+      				<td><input name="name" type="text"></td>
+      			</tr>
+      			<tr>
+      				<td>Email:</td>
+      				<td><input name="port" type="text"></td>
+      			</tr>
+      			<tr>
+      				<td><a href="list.php">See Data</a></td>
+      				<td><input name="submit_data" type="submit" value="Insert Data"></td>
+      			</tr>
+      			</form>
+      		</table>
+      	</div>
 
 </body>
 
