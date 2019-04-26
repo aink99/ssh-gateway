@@ -33,6 +33,27 @@
   //              VALUES ("tomcat2", 9923)');
 //            $db->exec('COMMIT');
 
+//Delete post
+$message = "";
+if( isset($_POST['delete_data']) ){
+ // Includs database connection
+ include "db_connect.php";
+
+ // Gets the data from post
+ $id = $_GET['id']; // rowid from url
+// $id = 2;
+ // Makes query with post data
+$query = "DELETE FROM tunnels WHERE rowid=$id";
+
+ // Executes the query
+ // If data inserted then set success message otherwise set error message
+ if( $db->exec($query) ){
+   $message = "Data deleted successfully.";
+   //echo "<meta http-equiv='refresh' content='0'>";
+ }else{
+   $message = "Sorry, Data is not Deleted.";
+ }
+}
 
             $query = 'SELECT  * FROM "tunnels"';
 
@@ -46,10 +67,13 @@
 
             echo "
              <table class=table >
+             <form action='manage.php' method='post'>
                <thead>
                  <tr>
                  <th scope='col'>Name</th>
                  <th scope='col'>Port</th>
+                 <th scope='col'>RowiD</th>
+                 <th scope='col'>Action</th>
                  </tr>
                 </thead>
                  <tbody>
@@ -61,7 +85,11 @@
                   echo "
                   <tr>
                    <td> $row[name] </td>
-                    <td> $row[port] </td>
+                   <td> $row[port] </td>
+                   <td> $row[id] </td>
+                  <td><input name='delete_data' type='submit' value='Delete'></td>
+
+
                      </tr>
                    ";
                   }
@@ -69,6 +97,31 @@
                   </tbody>
                  </table>
                  ';
+
+
+
+// Insert post
+                 $message = "";
+                 if( isset($_POST['submit_data']) ){
+                 	// Includs database connection
+                 	include "db_connect.php";
+
+                 	// Gets the data from post
+                 	$name = $_POST['name'];
+                 	$port = $_POST['port'];
+
+                 	// Makes query with post data
+                 	$query = "INSERT INTO tunnels (name, port) VALUES ('$name', '$port')";
+
+                 	// Executes the query
+                 	// If data inserted then set success message otherwise set error message
+                 	if( $db->exec($query) ){
+                 		$message = "Data inserted successfully.";
+                    echo "<meta http-equiv='refresh' content='0'>";
+                 	}else{
+                 		$message = "Sorry, Data is not inserted.";
+                 	}
+                 }
 
              ?>
       </div>
@@ -78,19 +131,22 @@
 
       		<!-- showing the message here-->
       		<div><?php echo $message;?></div>
+           <br>
+           <br>
+           <br>
 
-      		<table class=table>
-      			<form action="insert.php" method="post">
+      		<table class="table table-borderless">
+      			<form action="manage.php" method="post">
       			<tr>
       				<td>Name:</td>
       				<td><input name="name" type="text"></td>
       			</tr>
       			<tr>
-      				<td>Email:</td>
+      				<td>Port:</td>
       				<td><input name="port" type="text"></td>
       			</tr>
       			<tr>
-      				<td><a href="list.php">See Data</a></td>
+      				<td><a></a></td>
       				<td><input name="submit_data" type="submit" value="Insert Data"></td>
       			</tr>
       			</form>
