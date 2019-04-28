@@ -24,38 +24,8 @@
                 "port" INTEGER
             )');
 
-           //insert data
-          //  $db->exec('BEGIN');
-      //      $db->query('INSERT INTO "tunnels" ("name", "port")
-        //        VALUES ("tomcat1", 9922)');
 
-    //        $db->query('INSERT INTO "tunnels" ("name", "port")
-  //              VALUES ("tomcat2", 9923)');
-//            $db->exec('COMMIT');
 
-//Delete post
-$message = "";
-if( isset($_POST['delete_data']) ){
- // Include database connection
- //include "db_connect.php";
-
- // Gets the data from post
-// $id = $_GET['rowid']; // rowid from url
- $id = $_POST['rowid'];
-
-// $id = 2;
- // Makes query with post data
-$query = "DELETE FROM tunnels WHERE rowid=$id";
-
- // Executes the query
- // If data inserted then set success message otherwise set error message
-if( $db->exec($query) ){
-   $message = "Data deleted successfully.";
-   echo "<meta http-equiv='refresh' content='0'>";
- }else{
-   $message = "Sorry, Data is not Deleted.";
- }
-}
 
             $query = 'SELECT  * FROM "tunnels"';
 
@@ -91,7 +61,7 @@ if( $db->exec($query) ){
                    <td> $row[id] </td>
                   <td>
                   <form action='manage.php' method='post'>
-                  <input name='delete_data' type='submit' value='Delete'>
+                  <input name='delete_data'  class='btn btn-outline-danger btn-sm' type='submit' value='Delete'>
                   <input name='rowid' type='hidden' value=$row[id] >
                     </form>
                   </td>
@@ -130,6 +100,29 @@ if( $db->exec($query) ){
                  	}
                  }
 
+  //Delete post
+                 $message = "";
+                 if( isset($_POST['delete_data']) ){
+                  // Include database connection
+                  //include "db_connect.php";
+
+                  // Gets the data from post
+                 // $id = $_GET['rowid']; // rowid from url
+                  $id = $_POST['rowid'];
+
+                 // $id = 2;
+                  // Makes query with post data
+                 $query = "DELETE FROM tunnels WHERE rowid=$id";
+
+                  // Executes the query
+                  // If data inserted then set success message otherwise set error message
+                 if( $db->exec($query) ){
+                    $message = "Data deleted successfully.";
+                    echo "<meta http-equiv='refresh' content='0'>";
+                  }else{
+                    $message = "Sorry, Data is not Deleted.";
+                  }
+                 }
              ?>
       </div>
 
@@ -142,6 +135,7 @@ if( $db->exec($query) ){
            <br>
            <br>
 
+	<!-- Insert Section-->
       		<table class="table table-borderless">
       			<form action="manage.php" method="post">
       			<tr>
@@ -154,7 +148,7 @@ if( $db->exec($query) ){
       			</tr>
       			<tr>
       				<td><a></a></td>
-      				<td><input name="submit_data" type="submit" value="Insert Data"></td>
+      				<td><input name="submit_data"  class="btn btn-primary" type="submit" value="Insert Data"></td>
       			</tr>
       			</form>
       		</table>
