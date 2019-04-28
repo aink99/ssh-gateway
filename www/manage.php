@@ -36,20 +36,22 @@
 //Delete post
 $message = "";
 if( isset($_POST['delete_data']) ){
- // Includs database connection
- include "db_connect.php";
+ // Include database connection
+ //include "db_connect.php";
 
  // Gets the data from post
- $id = $_GET['id']; // rowid from url
+// $id = $_GET['rowid']; // rowid from url
+ $id = $_POST['rowid'];
+
 // $id = 2;
  // Makes query with post data
 $query = "DELETE FROM tunnels WHERE rowid=$id";
 
  // Executes the query
  // If data inserted then set success message otherwise set error message
- if( $db->exec($query) ){
+if( $db->exec($query) ){
    $message = "Data deleted successfully.";
-   //echo "<meta http-equiv='refresh' content='0'>";
+   echo "<meta http-equiv='refresh' content='0'>";
  }else{
    $message = "Sorry, Data is not Deleted.";
  }
@@ -67,7 +69,7 @@ $query = "DELETE FROM tunnels WHERE rowid=$id";
 
             echo "
              <table class=table >
-             <form action='manage.php' method='post'>
+
                <thead>
                  <tr>
                  <th scope='col'>Name</th>
@@ -87,7 +89,12 @@ $query = "DELETE FROM tunnels WHERE rowid=$id";
                    <td> $row[name] </td>
                    <td> $row[port] </td>
                    <td> $row[id] </td>
-                  <td><input name='delete_data' type='submit' value='Delete'></td>
+                  <td>
+                  <form action='manage.php' method='post'>
+                  <input name='delete_data' type='submit' value='Delete'>
+                  <input name='rowid' type='hidden' value=$row[id] >
+                    </form>
+                  </td>
 
 
                      </tr>
