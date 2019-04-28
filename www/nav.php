@@ -28,6 +28,9 @@
             <a class="nav-link" href="/status.php">Tunnel status <span class="sr-only">(current)</span></a>
           </li>
           <li class="nav-item">
+            <a class="nav-link" href="/manage.php">Manage <span class="sr-only">(current)</span></a>
+          </li>
+          <li class="nav-item">
             <a class="nav-link" href="https://github.com/aink99/ssh-gateway" target="_blank">Project</a>
           </li>
           <li class="nav-item">
