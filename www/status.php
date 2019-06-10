@@ -91,6 +91,11 @@ foreach($tcp as $value) {
      $tunnel = implode("\n", $matches[0]);
      $tunneline = preg_split("/[\s,]+/", $tunnel);
 
+     $db = new SQLite3('db/manage.sqlite', SQLITE3_OPEN_CREATE | SQLITE3_OPEN_READWRITE);
+     $query = "SELECT  name FROM tunnels WHERE port=$tunneline[6]";
+     $host = $db->querysingle($query);
+     //print_r($query);
+
 
 echo '
         <div class="card" style="width: 40rem;">
@@ -99,6 +104,7 @@ echo '
             </div>
                <div class="card-body">
                 <ul>
+                  <li>Server Name is '.$host.'</li>
                   <li>Remote IP '.$ip_port[0].' is connected source port is '.$ip_port[1].'</li>
                   <li>PID is '.$pidline[5].' </li>
                   <li>Remote tunnel port is '.$tunneline[6].' </li>
