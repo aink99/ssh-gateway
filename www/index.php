@@ -13,12 +13,18 @@
       <?php
       // php funtion to check if the port is open
       function stest($ip, $port) {
-
+   
 
 
         if(fsockopen("$ip",$port))
         {
+         $db = new SQLite3('db/manage.sqlite', SQLITE3_OPEN_CREATE | SQLITE3_OPEN_READWRITE);
+         $query = "SELECT  name FROM tunnels WHERE port=$port";
+         $host = $db->querysingle($query);
         //echo "Port $port is openened for ssh access";
+        if(empty($host)){
+          $host='Unknown Server';
+      }
         echo '
             <div class="card" style="width: 40rem;">
                 <div class="card-header">
@@ -27,7 +33,10 @@
                  <div class="card-body">
 
                   <i class="fa fa-check-circle-o" aria-hidden="true"  style="color:green"></i>
-                  <a>Port  '.$port.' is mapped </a>
+                  <a>'.$host.' is connected on Port '.$port.' </a>
+                  <br>
+                 
+
                      <br>
 
                 </div>
@@ -40,14 +49,21 @@
 
       // Report simple running errors
       error_reporting(E_ERROR);
+
+    
       // For loop we have written in our doc bind the remote ssh port to ports between 8222-92000
       for( $i=9922; $i<=9950; $i++ )
 
       {
       $stestoutput= stest ('127.0.0.1',"$i");
+    
 
       if (!empty($stestoutput)) {
+  
            echo "$stestoutput";
+          
+          
+
 
           }
        }
