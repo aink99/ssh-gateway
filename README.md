@@ -1,11 +1,12 @@
 Make your OpenSSH fly on Alpine
+
 Overview
-Use this Dockerfile / -image to start a sshd-server upon a lightweight Alpine container.
+
+Use this Dockerfile/image to start an SSH server on a lightweight Alpine container.
 
 Features
 
-
-*Basic Usage*
+Basic Usage
 
 ```
 docker   run -d  --name=ssh-gw \
@@ -16,9 +17,10 @@ docker   run -d  --name=ssh-gw \
 aink99/ssh-gateway
 ```
 
-From a host initiate a reverse tunnel, in this example  we reverse are owe in ssh server to our docker Image .
+From a host, initiate a reverse tunnel. In this example, we reverse our own SSH server to our Docker image:
+```bash
 ssh -Nnf   -o ServerAliveInterval=60 -o ServerAliveCountMax=60 -R 9922:localhost:22  autossh@PublicIP -p 1337 -i autokey
+```
 
-The from your home lan you can know connect  to your remote host. Usefull if you do not or cannot  open or  NAT your remoye Host
-
+Then, from your home LAN, you can now connect to your remote host. This is useful if you do not or cannot open or NAT your remote host
 ssh -p
